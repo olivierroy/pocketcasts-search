@@ -25,7 +25,8 @@ jobs:
           -x "package*.json" \
           -x ".prettierrc" \
           -x "*.zip" \
-          -x "README.md"
+          -x "README.md" \
+          -x "test.js"
 
     - name: Create Release
       run: |
