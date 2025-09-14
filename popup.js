@@ -10,11 +10,8 @@ class PopupController {
       // Get current tab info
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-      if (this.isYouTubeVideo(tab.url)) {
-        await this.loadVideoInfo(tab);
-      } else {
-        this.showManualSearch();
-      }
+      // Try to extract content from any page
+      await this.loadPodcastInfo(tab);
     } catch (error) {
       console.error('Error initializing popup:', error);
       this.showManualSearch();
@@ -25,57 +22,68 @@ class PopupController {
     return url && url.includes('youtube.com/watch');
   }
 
-  async loadVideoInfo(tab) {
+  async loadPodcastInfo(tab) {
     try {
-      // Execute content script to get video info
+      // Execute content script to get podcast info
       const results = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        func: () => window.Utils.extractVideoInfo()
+        files: ['utils.js']
       });
 
-      const videoInfo = results[0]?.result;
+      const results2 = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => window.Utils.extractPodcastInfo()
+      });
 
-      if (videoInfo && videoInfo.title) {
-        this.displayVideoInfo(videoInfo);
+      const podcastInfo = results2[0]?.result;
+
+      if (podcastInfo && podcastInfo.title) {
+        this.displayPodcastInfo(podcastInfo);
       } else {
         this.showLoading();
         // Retry after a delay in case page isn't fully loaded
-        setTimeout(() => this.retryLoadVideoInfo(tab), 1000);
+        setTimeout(() => this.retryLoadPodcastInfo(tab), 2000);
       }
     } catch (error) {
-      console.error('Error loading video info:', error);
+      console.error('Error loading podcast info:', error);
       this.showError();
     }
   }
 
-  async retryLoadVideoInfo(tab) {
+  async retryLoadPodcastInfo(tab) {
     try {
-      const results = await chrome.scripting.executeScript({
+      // Inject utils first, then extract
+      await chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        func: () => window.Utils.extractVideoInfo()
+        files: ['utils.js']
       });
 
-      const videoInfo = results[0]?.result;
+      const results = await chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        func: () => window.Utils.extractPodcastInfo()
+      });
 
-      if (videoInfo && videoInfo.title) {
-        this.displayVideoInfo(videoInfo);
+      const podcastInfo = results[0]?.result;
+
+      if (podcastInfo && podcastInfo.title) {
+        this.displayPodcastInfo(podcastInfo);
       } else {
-        this.showError('Could not extract video information');
+        this.showManualSearch();
       }
     } catch (error) {
-      this.showError('Error loading video information');
+      this.showError('Error loading podcast information');
     }
   }
 
 
-  displayVideoInfo(videoInfo) {
-    const searchQuery = `${videoInfo.title} ${videoInfo.channel}`.trim();
+  displayPodcastInfo(podcastInfo) {
+    const searchQuery = `${podcastInfo.title} ${podcastInfo.channel}`.trim();
 
     const content = document.getElementById('content');
     content.innerHTML = `
       <div class="video-info">
-        <div class="video-title">${this.escapeHtml(videoInfo.originalTitle)}</div>
-        <div class="video-channel">by ${this.escapeHtml(videoInfo.originalChannel)}</div>
+        <div class="video-title">${this.escapeHtml(podcastInfo.originalTitle)}</div>
+        <div class="video-channel">by ${this.escapeHtml(podcastInfo.originalChannel)}</div>
       </div>
 
       <div class="search-section">
@@ -94,7 +102,7 @@ class PopupController {
     });
 
     document.getElementById('searchChannelBtn').addEventListener('click', () => {
-      this.openPocketcasts(videoInfo.channel);
+      this.openPocketcasts(podcastInfo.channel);
     });
 
     // Allow Enter key to search

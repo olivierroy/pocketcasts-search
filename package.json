@@ -1,0 +1,12 @@
+{
+  "name": "pocketcasts-search",
+  "version": "1.0.0",
+  "description": "Chrome extension to search Pocketcasts for podcasts from webpages with audio players and podcast content",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^22.1.0"
+  },
+  "license": "Unlicense"
+}

@@ -1,27 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "YouTube to Pocketcasts",
+  "name": "Pocketcasts Search",
   "version": "1.0",
-  "description": "Search Pocketcasts for podcasts from YouTube videos",
+  "description": "Search Pocketcasts for podcasts from webpages with audio players and podcast content",
   "permissions": [
     "activeTab",
     "tabs",
     "scripting"
   ],
   "host_permissions": [
-    "*://www.youtube.com/*",
+    "*://*/*",
     "*://pocketcasts.com/*"
   ],
-  "content_scripts": [
-    {
-      "matches": ["*://www.youtube.com/*"],
-      "js": ["utils.js", "content.js"],
-      "css": ["content.css"]
-    }
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "action": {
     "default_popup": "popup.html",
     "default_title": "Search in Pocketcasts"

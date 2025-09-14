@@ -1,61 +1,92 @@
-# YouTube to Pocketcasts Chrome Extension
+# Pocketcasts Search Extension
 
-A Chrome extension that allows you to search for YouTube videos in Pocketcasts with one click.
+A Chrome extension that helps you search Pocketcasts for podcasts from webpages with audio players and podcast content. Works on Spotify, Apple Podcasts, SoundCloud, and many other podcast platforms.
 
 ## Features
 
-- **One-click search**: Adds a "Search in Pocketcasts" button to YouTube video pages
-- **Smart title cleaning**: Automatically removes common YouTube formatting from video titles
-- **Popup interface**: Click the extension icon for manual search customization
-- **Channel-only search**: Option to search just by podcast channel name
+- 🎯 **Automatic Detection**: Detects podcast content on webpages and extracts titles/show names
+- 🌐 **Universal**: Works on Spotify, Apple Podcasts, SoundCloud, and many podcast platforms
+- 🔍 **Manual Search**: Search for any podcast directly from the extension popup
+- ⚡ **Quick Access**: Adds a "Search in Pocketcasts" button on supported pages
 
 ## Installation
 
-1. Open Chrome and go to `chrome://extensions/`
-2. Enable "Developer mode" in the top right
-3. Click "Load unpacked" and select the extension folder
-4. The extension will appear in your Chrome toolbar
+### From GitHub
 
-## Usage
+1. **Download the extension**:
+   - Go to the latest release
+   - Download the `.zip` file
 
-### Method 1: YouTube Page Button
-1. Go to any YouTube video page
-2. Look for the red "Search in Pocketcasts" button near the like/share buttons
-3. Click it to automatically search for the video in Pocketcasts
+2. **Enable Developer Mode in Chrome**:
+   - Open Chrome and go to `chrome://extensions/`
+   - Toggle "Developer mode" on (top right)
 
-### Method 2: Extension Popup
-1. While on a YouTube video page, click the extension icon in the toolbar
-2. Review and edit the search query if needed
-3. Click "Search in Pocketcasts" or "Search Channel Only"
+3. **Load the extension**:
+   - Click "Load unpacked"
+   - Select the folder containing the extension files
+   - The extension should now appear in your extensions list
 
-## How It Works
+4. **Pin the extension** (optional):
+   - Click the puzzle piece icon in the toolbar
+   - Pin "Pocketcasts Search" for easy access
 
-The extension:
-1. Extracts video title and channel name from YouTube pages
-2. Cleans the title by removing common YouTube formatting (episode numbers, "| Channel Name", etc.)
-3. Opens Pocketcasts search with the cleaned query
-4. Works with YouTube's single-page navigation
+### From Chrome Web Store
 
-## Files
+*Coming soon - extension will be published to the Chrome Web Store*
 
-- `manifest.json` - Extension configuration
-- `content.js` - Script that runs on YouTube pages
-- `content.css` - Styling for the YouTube button
-- `popup.html` - Extension popup interface
-- `popup.js` - Popup functionality
-- `background.js` - Background service worker
-- `icon*.png` - Extension icons
+## How to Use
 
-## Development
+### Automatic Detection
+1. Visit any webpage with podcast content (Spotify, Apple Podcasts, etc.)
+2. Look for the "Search in Pocketcasts" button on the page
+3. Click it to search for the podcast in Pocketcasts
 
-The extension uses Chrome Extensions Manifest V3 and includes:
-- Content scripts for YouTube integration
-- Popup interface for manual control
-- Background service worker for message handling
-- Cross-origin permissions for Pocketcasts integration
+### Extension Popup
+1. Click the extension icon in your toolbar
+2. On podcast pages: See extracted title/show name, edit if needed
+3. On other pages: Use the manual search field
+4. Click "Search in Pocketcasts" to open results
 
-## Permissions
+### Supported Sites
+- Spotify (podcast pages)
+- Apple Podcasts
+- SoundCloud
+- Anchor.fm
+- Buzzsprout
+- Libsyn
+- Video platforms with podcast content
+- Any website with `<audio>` elements or podcast players
 
-- `activeTab` - To read YouTube page content
-- `tabs` - To open new Pocketcasts tabs
-- Host permissions for YouTube and Pocketcasts domains
+## Privacy
+
+This extension:
+- ✅ Only reads content from webpages you visit
+- ✅ Does not collect or store personal data
+- ✅ Does not send data to external servers (except opening Pocketcasts search)
+- ✅ Works entirely locally in your browser
+
+## License
+
+This project is released into the public domain under The Unlicense. See [UNLICENSE](UNLICENSE) for details.
+
+## Contributing
+
+Contributions welcome! Feel free to:
+- Report bugs or request features
+- Submit pull requests
+- Suggest improvements for podcast detection
+
+## Troubleshooting
+
+**Extension not detecting podcast content?**
+- Check browser console for debug logs
+- Try refreshing the page
+- Use the manual search in the popup as a fallback
+
+**Button not appearing?**
+- Make sure you're on a supported site or page with audio elements
+- The extension only shows buttons on pages with detectable podcast content
+
+**Search not working?**
+- Verify you have an internet connection
+- Check if Pocketcasts.com is accessible
