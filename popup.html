@@ -122,6 +122,66 @@
       display: block;
       margin-bottom: 4px;
     }
+
+    .player-controls {
+      background: #f0f8ff;
+      border: 1px solid #d0e7ff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .player-controls.visible {
+      display: block;
+    }
+
+    .player-info {
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .now-playing {
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .play-pause-btn {
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .play-pause-btn:hover {
+      background: #0056b3;
+    }
+
+    .play-pause-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .play-pause-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
   </style>
 </head>
 <body>
@@ -130,6 +190,17 @@
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
     </svg>
     <h1>Pocketcasts Search</h1>
+  </div>
+
+  <div id="playerControls" class="player-controls">
+    <div class="player-info">Currently playing in Pocketcasts:</div>
+    <div id="nowPlaying" class="now-playing">Loading...</div>
+    <button id="playPauseBtn" class="play-pause-btn" disabled>
+      <svg viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <span>Toggle Play/Pause</span>
+    </button>
   </div>
 
   <div id="content">

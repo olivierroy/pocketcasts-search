@@ -2,11 +2,16 @@
 
 class PopupController {
   constructor() {
+    this.pocketcastsTab = null;
+    this.playerState = { hasPlayer: false };
     this.init();
   }
 
   async init() {
     try {
+      // Check for Pocketcasts tab first
+      await this.checkPocketcastsPlayer();
+
       // Get current tab info
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
@@ -172,6 +177,75 @@ class PopupController {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  }
+
+  async checkPocketcastsPlayer() {
+    try {
+      this.pocketcastsTab = await Utils.findPocketcastsTab();
+
+      if (this.pocketcastsTab) {
+        this.playerState = await Utils.getPocketcastsPlayerState(this.pocketcastsTab.id);
+        this.updatePlayerControls();
+      }
+    } catch (error) {
+      console.error('Error checking Pocketcasts player:', error);
+    }
+  }
+
+  updatePlayerControls() {
+    const playerControls = document.getElementById('playerControls');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const nowPlaying = document.getElementById('nowPlaying');
+
+    if (!this.playerState.hasPlayer) {
+      playerControls.classList.remove('visible');
+      return;
+    }
+
+    playerControls.classList.add('visible');
+    playPauseBtn.disabled = false;
+
+    // Update now playing info
+    const title = this.playerState.episodeTitle || this.playerState.showTitle || 'Unknown';
+    nowPlaying.textContent = title;
+    nowPlaying.title = title; // Show full text on hover
+
+    // Add click handler
+    playPauseBtn.onclick = () => this.handlePlayPause();
+  }
+
+  async handlePlayPause() {
+    if (!this.pocketcastsTab) return;
+
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const buttonText = playPauseBtn.querySelector('span');
+
+    playPauseBtn.disabled = true;
+    buttonText.textContent = 'Loading...';
+
+    try {
+      await Utils.controlPocketcastsPlayer(this.pocketcastsTab.id);
+      buttonText.textContent = 'Toggle Play/Pause';
+    } catch (error) {
+      console.error('Error controlling player:', error);
+      buttonText.textContent = 'Error';
+      setTimeout(() => {
+        buttonText.textContent = 'Toggle Play/Pause';
+      }, 1000);
+    }
+
+    playPauseBtn.disabled = false;
+  }
+
+  async refreshPlayerState() {
+    if (!this.pocketcastsTab) return;
+
+    try {
+      this.playerState = await Utils.getPocketcastsPlayerState(this.pocketcastsTab.id);
+      this.updatePlayerControls();
+    } catch (error) {
+      console.error('Error refreshing player state:', error);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pocketcasts Search",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Search Pocketcasts for podcasts from webpages with audio players and podcast content",
   "permissions": [
     "activeTab",

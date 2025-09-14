@@ -535,6 +535,113 @@ const Utils = {
     } else {
       window.open(url, '_blank');
     }
+  },
+
+  async findPocketcastsTab() {
+    if (typeof chrome === 'undefined' || !chrome.tabs) {
+      return null;
+    }
+
+    try {
+      const tabs = await chrome.tabs.query({
+        url: ['*://pocketcasts.com/*', '*://*.pocketcasts.com/*']
+      });
+      return tabs.find(tab => tab.url && tab.url.includes('pocketcasts.com')) || null;
+    } catch (error) {
+      console.error('Error finding Pocketcasts tab:', error);
+      return null;
+    }
+  },
+
+  async getPocketcastsPlayerState(tabId) {
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId },
+        func: () => {
+          // Check if player exists by looking for control buttons or player container
+          const pauseButton = document.querySelector('button[aria-label="Pause"]');
+          const playButton = document.querySelector('button[aria-label="Play"]');
+          const playerContainer = document.querySelector('[class*="player"]');
+
+          if (!pauseButton && !playButton && !playerContainer) {
+            return { hasPlayer: false };
+          }
+
+          // Get episode and show titles using optimized selectors
+          const episodeElement = document.querySelector('.episode-title');
+          const showElement = document.querySelector('.podcast-title');
+
+          let episodeTitle = '';
+          let showTitle = '';
+
+          if (episodeElement?.textContent?.trim()) {
+            const fullText = episodeElement.textContent.trim();
+
+            // Pocketcasts sometimes has format: "Episode Title by Show Name"
+            if (fullText.includes(' by ')) {
+              const parts = fullText.split(' by ');
+              episodeTitle = parts[0].trim();
+              showTitle = parts[1].trim();
+            } else {
+              episodeTitle = fullText;
+            }
+          }
+
+          // Get show title from dedicated element if not found in episode
+          if (!showTitle && showElement?.textContent?.trim()) {
+            showTitle = showElement.textContent.trim();
+          }
+
+          return {
+            hasPlayer: true,
+            episodeTitle: episodeTitle || '',
+            showTitle: showTitle || ''
+          };
+        }
+      });
+
+      return results[0]?.result || { hasPlayer: false };
+    } catch (error) {
+      console.error('Error getting Pocketcasts player state:', error);
+      return { hasPlayer: false };
+    }
+  },
+
+  async controlPocketcastsPlayer(tabId) {
+    try {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId },
+        func: () => {
+          // Try the main play/pause button (exact aria-label match)
+          const playPauseButton = document.querySelector('button[aria-label="Pause"], button[aria-label="Play"]');
+
+          if (playPauseButton) {
+            playPauseButton.click();
+            return true;
+          }
+
+          // Fallback: try keyboard shortcut
+          document.body.focus();
+          document.dispatchEvent(new KeyboardEvent('keydown', {
+            key: ' ',
+            code: 'Space',
+            bubbles: true
+          }));
+          document.dispatchEvent(new KeyboardEvent('keyup', {
+            key: ' ',
+            code: 'Space',
+            bubbles: true
+          }));
+
+          return true;
+        }
+      });
+
+      return results[0]?.result || false;
+    } catch (error) {
+      console.error('Error controlling Pocketcasts player:', error);
+      return false;
+    }
   }
 };
 

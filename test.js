@@ -17,6 +17,14 @@ global.chrome = {
   tabs: {
     create: (options) => {
       console.log(`Mock: Opening ${options.url}`);
+    },
+    query: async (options) => {
+      return [];
+    }
+  },
+  scripting: {
+    executeScript: async (options) => {
+      return [{ result: { hasPlayer: false } }];
     }
   }
 };
@@ -54,12 +62,12 @@ class TestRunner {
     }
   }
 
-  run() {
+  async run() {
     console.log('🧪 Running Pocketcasts Search Extension Test Suite\n');
 
-    this.tests.forEach(({ name, fn }) => {
+    for (const { name, fn } of this.tests) {
       try {
-        fn.call(this);
+        await fn.call(this);
         console.log(`✅ ${name}`);
         this.passed++;
       } catch (error) {
@@ -67,7 +75,7 @@ class TestRunner {
         console.log(`   ${error.message}\n`);
         this.failed++;
       }
-    });
+    }
 
     const total = this.passed + this.failed;
     console.log(`\n📊 Results: ${this.passed}/${total} tests passed`);
@@ -211,6 +219,43 @@ runner.test('openPocketcasts handles special characters', function() {
 
   Utils.openPocketcasts('test & query with spaces');
   this.assertEqual(capturedUrl, 'https://pocketcasts.com/search?q=test%20%26%20query%20with%20spaces');
+});
+
+// Player Control Tests
+runner.test('findPocketcastsTab returns null without chrome tabs API', async function() {
+  // Temporarily remove chrome.tabs
+  const originalTabs = global.chrome.tabs;
+  delete global.chrome.tabs;
+
+  const result = await Utils.findPocketcastsTab();
+  this.assertEqual(result, null);
+
+  // Restore chrome.tabs
+  global.chrome.tabs = originalTabs;
+});
+
+runner.test('getPocketcastsPlayerState handles missing tab gracefully', async function() {
+  // Mock chrome.scripting.executeScript to simulate error
+  global.chrome.scripting = {
+    executeScript: () => {
+      throw new Error('Tab not found');
+    }
+  };
+
+  const result = await Utils.getPocketcastsPlayerState(999);
+  this.assertEqual(result.hasPlayer, false);
+});
+
+runner.test('controlPocketcastsPlayer handles missing tab gracefully', async function() {
+  // Mock chrome.scripting.executeScript to simulate error
+  global.chrome.scripting = {
+    executeScript: () => {
+      throw new Error('Tab not found');
+    }
+  };
+
+  const result = await Utils.controlPocketcastsPlayer(999);
+  this.assertEqual(result, false);
 });
 
 // Run all tests
