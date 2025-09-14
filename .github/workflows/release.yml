@@ -1,0 +1,50 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Create extension ZIP
+      run: |
+        zip -r pocketcasts-search-extension-${{ github.ref_name }}.zip . \
+          -x "*.git*" \
+          -x ".github/*" \
+          -x "node_modules/*" \
+          -x "package*.json" \
+          -x ".prettierrc" \
+          -x "*.zip" \
+          -x "README.md"
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref_name }}
+        body: |
+          Chrome extension release ${{ github.ref_name }}
+
+          Download the ZIP file and upload it to the Chrome Web Store.
+        draft: false
+        prerelease: false
+      id: create_release
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./pocketcasts-search-extension-${{ github.ref_name }}.zip
+        asset_name: pocketcasts-search-extension-${{ github.ref_name }}.zip
+        asset_content_type: application/zip
