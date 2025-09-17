@@ -1,6 +1,6 @@
 # Permission Justifications
 
-This document explains why each permission is required for the Pocketcasts Search extension.
+This document explains why each permission is required for the Pocket Casts Search extension.
 
 ## Required Permissions
 
@@ -15,12 +15,12 @@ This document explains why each permission is required for the Pocketcasts Searc
 - No data is stored or transmitted to external servers
 
 ### `tabs`
-**Purpose**: Create new tabs to open Pocketcasts search results.
+**Purpose**: Create new tabs to open Pocket Casts search results.
 
-**Justification**: When users search for a podcast, the extension opens the Pocketcasts search page in a new tab using `chrome.tabs.create()`. This provides a seamless user experience without navigating away from their current page.
+**Justification**: When users search for a podcast, the extension opens the Pocket Casts search page in a new tab using `chrome.tabs.create()`. This provides a seamless user experience without navigating away from their current page.
 
 **Data Usage**:
-- Only creates new tabs with Pocketcasts search URLs
+- Only creates new tabs with Pocket Casts search URLs
 - Does not access content of other tabs
 - Does not read tab history or modify existing tabs
 
@@ -47,13 +47,13 @@ This document explains why each permission is required for the Pocketcasts Searc
 - Does not access sensitive user data or authentication tokens
 
 ### `*://pocketcasts.com/*`
-**Purpose**: Open Pocketcasts search pages.
+**Purpose**: Open Pocket Casts search pages.
 
-**Justification**: The extension's core functionality is to search Pocketcasts. This permission ensures the extension can open Pocketcasts search URLs when users click search buttons.
+**Justification**: The extension's core functionality is to search Pocket Casts. This permission ensures the extension can open Pocket Casts search URLs when users click search buttons.
 
 **Data Usage**:
-- Only opens public Pocketcasts search pages
-- Does not access user's Pocketcasts account or personal data
+- Only opens public Pocket Casts search pages
+- Does not access user's Pocket Casts account or personal data
 - No cookies or authentication data is accessed
 
 ## Privacy Commitment
@@ -61,7 +61,7 @@ This document explains why each permission is required for the Pocketcasts Searc
 - **No data collection**: The extension does not collect, store, or transmit any personal data
 - **No tracking**: No analytics, telemetry, or user behavior tracking
 - **Local processing**: All podcast extraction happens locally in the browser
-- **No network requests**: Except for opening Pocketcasts search pages, no network requests are made
+- **No network requests**: Except for opening Pocket Casts search pages, no network requests are made
 - **Open source**: All code is publicly available for inspection
 
 ## Security Notes

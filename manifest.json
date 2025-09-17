@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Pocketcasts Search",
-  "version": "1.1",
-  "description": "Search Pocketcasts for podcasts from webpages with audio players and podcast content",
+  "name": "Pocket Casts Search",
+  "version": "1.2",
+  "description": "Search Pocket Casts for podcasts from webpages with audio players and podcast content",
   "permissions": [
     "activeTab",
     "tabs",
@@ -14,7 +14,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Search in Pocketcasts"
+    "default_title": "Search in Pocket Casts"
   },
   "icons": {
     "16": "icon16.png",

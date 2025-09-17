@@ -59,7 +59,7 @@ const Utils = {
   },
 
   extractPodcastInfo() {
-    console.log('Pocketcasts Search: Starting content extraction');
+    console.log('Pocket Casts Search: Starting content extraction');
 
     // Check if we're on YouTube and use specific selectors
     if (window.location.hostname.includes('youtube.com')) {
@@ -548,7 +548,7 @@ const Utils = {
       });
       return tabs.find(tab => tab.url && tab.url.includes('pocketcasts.com')) || null;
     } catch (error) {
-      console.error('Error finding Pocketcasts tab:', error);
+      console.error('Error finding Pocket Casts tab:', error);
       return null;
     }
   },
@@ -577,7 +577,7 @@ const Utils = {
           if (episodeElement?.textContent?.trim()) {
             const fullText = episodeElement.textContent.trim();
 
-            // Pocketcasts sometimes has format: "Episode Title by Show Name"
+            // Pocket Casts sometimes has format: "Episode Title by Show Name"
             if (fullText.includes(' by ')) {
               const parts = fullText.split(' by ');
               episodeTitle = parts[0].trim();
@@ -602,7 +602,7 @@ const Utils = {
 
       return results[0]?.result || { hasPlayer: false };
     } catch (error) {
-      console.error('Error getting Pocketcasts player state:', error);
+      console.error('Error getting Pocket Casts player state:', error);
       return { hasPlayer: false };
     }
   },
@@ -639,7 +639,7 @@ const Utils = {
 
       return results[0]?.result || false;
     } catch (error) {
-      console.error('Error controlling Pocketcasts player:', error);
+      console.error('Error controlling Pocket Casts player:', error);
       return false;
     }
   }

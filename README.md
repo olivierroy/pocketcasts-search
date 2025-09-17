@@ -1,13 +1,13 @@
-# Pocketcasts Search Extension
+# Pocket Casts Search Extension
 
-A Chrome extension that helps you search Pocketcasts for podcasts from webpages with audio players and podcast content. Works on Spotify, Apple Podcasts, SoundCloud, and many other podcast platforms.
+A Chrome extension that helps you search Pocket Casts for podcasts from webpages with audio players and podcast content. Works on Spotify, Apple Podcasts, SoundCloud, and many other podcast platforms.
 
 ## Features
 
 - 🎯 **Automatic Detection**: Detects podcast content on webpages and extracts titles/show names
 - 🌐 **Universal**: Works on Spotify, Apple Podcasts, SoundCloud, and many podcast platforms
 - 🔍 **Manual Search**: Search for any podcast directly from the extension popup
-- ⚡ **Quick Access**: Adds a "Search in Pocketcasts" button on supported pages
+- ⚡ **Quick Access**: Adds a "Search in Pocket Casts" button on supported pages
 
 ## Installation
 
@@ -28,24 +28,24 @@ A Chrome extension that helps you search Pocketcasts for podcasts from webpages 
 
 4. **Pin the extension** (optional):
    - Click the puzzle piece icon in the toolbar
-   - Pin "Pocketcasts Search" for easy access
+   - Pin "Pocket Casts Search" for easy access
 
 ### From Chrome Web Store
 
-*Coming soon - extension will be published to the Chrome Web Store*
+https://chromewebstore.google.com/detail/pocketcasts-search/hlpijedkipcldggdacalmagojpelmmof
 
 ## How to Use
 
 ### Automatic Detection
 1. Visit any webpage with podcast content (Spotify, Apple Podcasts, etc.)
-2. Look for the "Search in Pocketcasts" button on the page
-3. Click it to search for the podcast in Pocketcasts
+2. Look for the "Search in Pocket Casts" button on the page
+3. Click it to search for the podcast in Pocket Casts
 
 ### Extension Popup
 1. Click the extension icon in your toolbar
 2. On podcast pages: See extracted title/show name, edit if needed
 3. On other pages: Use the manual search field
-4. Click "Search in Pocketcasts" to open results
+4. Click "Search in Pocket Casts" to open results
 
 ### Supported Sites
 - Spotify (podcast pages)
@@ -62,7 +62,7 @@ A Chrome extension that helps you search Pocketcasts for podcasts from webpages 
 This extension:
 - ✅ Only reads content from webpages you visit
 - ✅ Does not collect or store personal data
-- ✅ Does not send data to external servers (except opening Pocketcasts search)
+- ✅ Does not send data to external servers (except opening Pocket Casts search)
 - ✅ Works entirely locally in your browser
 
 ## License
@@ -89,4 +89,4 @@ Contributions welcome! Feel free to:
 
 **Search not working?**
 - Verify you have an internet connection
-- Check if Pocketcasts.com is accessible
+- Check if Pocket Casts.com is accessible

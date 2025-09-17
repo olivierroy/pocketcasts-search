@@ -1,4 +1,4 @@
-// Popup script for YouTube to Pocketcasts extension
+// Popup script for YouTube to Pocket Casts extension
 
 class PopupController {
   constructor() {
@@ -9,7 +9,7 @@ class PopupController {
 
   async init() {
     try {
-      // Check for Pocketcasts tab first
+      // Check for Pocket Casts tab first
       await this.checkPocketcastsPlayer();
 
       // Get current tab info
@@ -94,8 +94,8 @@ class PopupController {
       <div class="search-section">
         <input type="text" class="search-query" id="searchQuery"
                value="${this.escapeHtml(searchQuery)}"
-               placeholder="Search query for Pocketcasts">
-        <button class="button" id="searchBtn">Search in Pocketcasts</button>
+               placeholder="Search query for Pocket Casts">
+        <button class="button" id="searchBtn">Search in Pocket Casts</button>
         <button class="button secondary-button" id="searchChannelBtn">Search Channel Only</button>
       </div>
     `;
@@ -130,7 +130,7 @@ class PopupController {
       <div class="search-section">
         <input type="text" class="search-query" id="manualSearchQuery"
                placeholder="Enter podcast or show name to search">
-        <button class="button" id="manualSearchBtn">Search in Pocketcasts</button>
+        <button class="button" id="manualSearchBtn">Search in Pocket Casts</button>
       </div>
       <div class="status">
         Go to a YouTube video for automatic extraction, or use the search above.
@@ -188,7 +188,7 @@ class PopupController {
         this.updatePlayerControls();
       }
     } catch (error) {
-      console.error('Error checking Pocketcasts player:', error);
+      console.error('Error checking Pocket Casts player:', error);
     }
   }
 

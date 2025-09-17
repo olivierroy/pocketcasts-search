@@ -63,7 +63,7 @@ class TestRunner {
   }
 
   async run() {
-    console.log('🧪 Running Pocketcasts Search Extension Test Suite\n');
+    console.log('🧪 Running Pocket Casts Search Extension Test Suite\n');
 
     for (const { name, fn } of this.tests) {
       try {
